@@ -3,16 +3,12 @@ package com.nhnacademy.springboot.taskapi.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tag")
-public class Tag {
+@Table(name = "project_status")
+public class ProjectStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @JoinColumn(name = "project_id")
-    @ManyToOne
-    Project projectId;
+    int id;
 
     @Column(name = "name")
     String name;

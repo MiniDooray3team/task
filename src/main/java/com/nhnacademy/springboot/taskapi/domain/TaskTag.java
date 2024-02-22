@@ -3,18 +3,19 @@ package com.nhnacademy.springboot.taskapi.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tag")
-public class Tag {
+@Table(name = "task_tag")
+public class TaskTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "task_id")
     @ManyToOne
-    Project projectId;
+    Task task;
 
-    @Column(name = "name")
-    String name;
+    @JoinColumn(name = "tag_id")
+    @ManyToOne
+    Tag tag;
 
 }
