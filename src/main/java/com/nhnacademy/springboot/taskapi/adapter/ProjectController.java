@@ -1,6 +1,7 @@
 package com.nhnacademy.springboot.taskapi.adapter;
 
 import com.nhnacademy.springboot.taskapi.domain.Project;
+import com.nhnacademy.springboot.taskapi.domain.ProjectMember;
 import com.nhnacademy.springboot.taskapi.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,9 @@ public class ProjectController {
         return projectService.getProjects();
     }
 
-    @GetMapping("/{id}")
-    public Project getProject(@PathVariable("id") Long id) {
-        return projectService.getProject(id);
+    @GetMapping("/{projectId}")
+    public Project getProject(@PathVariable("projectId") Long projectId) {
+        return projectService.getProject(projectId);
     }
 
     @PostMapping
@@ -36,9 +37,27 @@ public class ProjectController {
         return new ResultResponse("ok");
     }
 
-    @DeleteMapping("/{id}")
-    public ResultResponse deleteProject(@PathVariable("id") Long id) {
-        projectService.deleteProject(id);
+    @DeleteMapping("/{projectId}")
+    public ResultResponse deleteProject(@PathVariable("projectId") Long projectid) {
+        projectService.deleteProject(projectid);
         return new ResultResponse("ok");
+    }
+
+    @PostMapping("/member")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResultResponse addProjectMember(@RequestBody ProjectMember projectMember, @RequestHeader("MEMBER-SERIAL-ID") Long adminId){
+        projectService.addProjectMember(projectMember, adminId);
+        return new ResultResponse("created");
+    }
+
+    @DeleteMapping("/member")
+    public ResultResponse deleteProjectMember(@RequestBody ProjectMember projectMember, @RequestHeader("MEMBER-SERIAL-ID") Long adminId){
+        projectService.deleteProjectMember(projectMember, adminId);
+        return new ResultResponse("ok");
+    }
+
+    @GetMapping("/member/{memberId}")
+    public List<Project> getProjectsByMemberId(@PathVariable("memberId") Long memberId){
+        return projectService.getProjectsByMemberId(memberId);
     }
 }

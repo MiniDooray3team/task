@@ -13,7 +13,7 @@ public class ProjectStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
 
     @Column(name = "name")
     String name;
