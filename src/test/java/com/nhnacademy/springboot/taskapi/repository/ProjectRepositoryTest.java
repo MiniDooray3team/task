@@ -18,7 +18,6 @@ class ProjectRepositoryTest {
         @Autowired
         ProjectRepository projectRepository;
 
-
         @Test
         void getProject() {
                 Project project = new Project(1L, "프로젝트 A", LocalDateTime.of(2024,2,22,19,0,0), 1, 1L);
