@@ -2,11 +2,15 @@ package com.nhnacademy.springboot.taskapi.service;
 
 import com.nhnacademy.springboot.taskapi.domain.Project;
 import com.nhnacademy.springboot.taskapi.domain.ProjectMember;
+import com.nhnacademy.springboot.taskapi.dto.ProjectMemberRegisterRequest;
+import com.nhnacademy.springboot.taskapi.dto.ProjectModifyRequest;
+import com.nhnacademy.springboot.taskapi.dto.ProjectRegisterRequest;
 import com.nhnacademy.springboot.taskapi.exception.*;
 import com.nhnacademy.springboot.taskapi.repository.ProjectMemberRepository;
 import com.nhnacademy.springboot.taskapi.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,33 +37,33 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Project createProject(Project project) {
-        if(projectRepository.existsById(project.getId())){
-            throw new ProjectAlreadyExistsException("project " + project.getId() + " already exists");
-        }
+    public Project createProject(ProjectRegisterRequest request, Long memberId) {
+        Project project = new Project();
+        project.setName(request.getName());
+        project.setCreatedAt(LocalDateTime.now());
+        project.setAdminId(memberId);
+        project.setProjectStatusId(request.getProjectStatusId());
 
         return projectRepository.save(project);
     }
 
     @Override
-    public void updateProject(Project project, Long adminId) {
-        if(!(projectRepository.existsById(project.getId()))){
-            throw new ProjectNotFoundException("project " + project.getId() + " not found");
-        }
+    public void updateProject(ProjectModifyRequest request, Long adminId) {
+        Project project = projectRepository.findById(request.getId()).orElseThrow(ProjectNotFoundException::new);
 
         if(!project.getAdminId().equals(adminId)) {
             throw new UnauthorizedUserException("Permission denied: You cannot update project.");
         }
+
+        project.setName(request.getName());
+        project.setProjectStatusId(request.getProjectStatusId());
 
         projectRepository.save(project);
     }
 
     @Override
     public void deleteProject(Long projectId, Long adminId) {
-        Project project = projectRepository.findById(projectId).orElse(null);
-        if(project == null){
-            throw new ProjectNotFoundException("project " + projectId + " not found");
-        }
+        Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 
         if(!project.getAdminId().equals(adminId)) {
             throw new UnauthorizedUserException("Permission denied: You cannot delete project.");
@@ -69,13 +73,11 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void addProjectMember(ProjectMember projectMember, Long adminId) {
-        Long projectId = projectMember.getPk().getProjectId();
-        Long memberId = projectMember.getPk().getMemberId();
-        Project project = projectRepository.findById(projectId).orElse(null);
-        if(project == null) {
-            throw new ProjectNotFoundException("project " + projectId + " not found");
-        }
+    public void addProjectMember(ProjectMemberRegisterRequest request, Long adminId) {
+        Long projectId = request.getProjectId();
+        Long memberId = request.getMemberId();
+
+        Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 
         if(!project.getAdminId().equals(adminId)) {
             throw new UnauthorizedUserException("Permission denied: You cannot add project member.");
@@ -85,20 +87,26 @@ public class ProjectServiceImpl implements ProjectService{
             throw new ProjectMemberAlreadyExistsException();
         }
 
+        ProjectMember.Pk pk = new ProjectMember.Pk();
+        pk.setProjectId(projectId);
+        pk.setMemberId(memberId);
+
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setProject(project);
+        projectMember.setPk(pk);
+
         projectMemberRepository.save(projectMember);
     }
 
     @Override
-    public void deleteProjectMember(ProjectMember projectMember, Long adminId) {
-        Long projectId = projectMember.getPk().getProjectId();
-        Long memberId = projectMember.getPk().getMemberId();
-        Project project = projectRepository.findById(projectId).orElse(null);
-        if(project == null) {
-            throw new ProjectNotFoundException("project " + projectId + " not found");
-        }
+    public void deleteProjectMember(ProjectMemberRegisterRequest request, Long adminId) {
+        Long projectId = request.getProjectId();
+        Long memberId = request.getMemberId();
+
+        Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 
         if(!project.getAdminId().equals(adminId)) {
-            throw new UnauthorizedUserException("Permission denied: You cannot delete project member.");
+            throw new UnauthorizedUserException("Permission denied: You cannot add project member.");
         }
 
         if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)) {
