@@ -39,26 +39,36 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void updateProject(Project project) {
+    public void updateProject(Project project, Long adminId) {
         if(!(projectRepository.existsById(project.getId()))){
             throw new ProjectNotFoundException("project " + project.getId() + " not found");
         }
+
+        if(!project.getAdminId().equals(adminId)) {
+            throw new UnauthorizedUserException();
+        }
+
         projectRepository.save(project);
     }
 
     @Override
-    public void deleteProject(Long projectId) {
+    public void deleteProject(Long projectId, Long adminId) {
         Project project = projectRepository.findById(projectId).orElse(null);
         if(project == null){
             throw new ProjectNotFoundException("project " + projectId + " not found");
         }
+
+        if(!project.getAdminId().equals(adminId)) {
+            throw new UnauthorizedUserException();
+        }
+
         projectRepository.deleteById(projectId);
     }
 
     @Override
     public void addProjectMember(ProjectMember projectMember, Long adminId) {
-        Long projectId = projectMember.getProject().getId();
-        Long memberId = projectMember.getPk().getProjectId();
+        Long projectId = projectMember.getPk().getProjectId();
+        Long memberId = projectMember.getPk().getMemberId();
         Project project = projectRepository.findById(projectId).orElse(null);
         if(project == null) {
             throw new ProjectNotFoundException("project " + projectId + " not found");
@@ -78,7 +88,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public void deleteProjectMember(ProjectMember projectMember, Long adminId) {
         Long projectId = projectMember.getPk().getProjectId();
-        Long memberId = projectMember.getPk().getProjectId();
+        Long memberId = projectMember.getPk().getMemberId();
         Project project = projectRepository.findById(projectId).orElse(null);
         if(project == null) {
             throw new ProjectNotFoundException("project " + projectId + " not found");

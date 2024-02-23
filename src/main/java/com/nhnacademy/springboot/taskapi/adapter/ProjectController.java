@@ -32,14 +32,14 @@ public class ProjectController {
     }
 
     @PutMapping
-    public ResultResponse updateProject(@RequestBody Project project) {
-        projectService.updateProject(project);
+    public ResultResponse updateProject(@RequestBody Project project, @RequestHeader("MEMBER-SERIAL-ID") Long adminId) {
+        projectService.updateProject(project, adminId);
         return new ResultResponse("ok");
     }
 
     @DeleteMapping("/{projectId}")
-    public ResultResponse deleteProject(@PathVariable("projectId") Long projectid) {
-        projectService.deleteProject(projectid);
+    public ResultResponse deleteProject(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") Long adminId) {
+        projectService.deleteProject(projectId, adminId);
         return new ResultResponse("ok");
     }
 
