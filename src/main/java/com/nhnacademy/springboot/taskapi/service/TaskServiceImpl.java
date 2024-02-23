@@ -84,7 +84,7 @@ public class TaskServiceImpl implements TaskService {
         if(!taskRepository.existsById(taskId)){
             throw new TaskNotFoundException();
         }
-        
+
         taskRepository.deleteById(taskId);
     }
 }
