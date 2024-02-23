@@ -1,11 +1,15 @@
 package com.nhnacademy.springboot.taskapi.domain;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "project_member")
 public class ProjectMember {
@@ -21,6 +25,8 @@ public class ProjectMember {
     @Embeddable
     @NoArgsConstructor
     @EqualsAndHashCode
+    @Getter
+    @Setter
     public static class Pk implements Serializable {
         @Column(name = "project_id")
         Long projectId;
