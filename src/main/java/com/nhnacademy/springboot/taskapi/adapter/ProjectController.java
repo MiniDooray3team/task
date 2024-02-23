@@ -2,6 +2,7 @@ package com.nhnacademy.springboot.taskapi.adapter;
 
 import com.nhnacademy.springboot.taskapi.domain.Project;
 import com.nhnacademy.springboot.taskapi.domain.ProjectMember;
+import com.nhnacademy.springboot.taskapi.exception.UnauthorizedUserException;
 import com.nhnacademy.springboot.taskapi.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,13 +17,19 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping
-    public List<Project> getProjects() {
-        return projectService.getProjects();
+    public List<Project> getProjectsByMemberId(@RequestHeader("MEMBER-SERIAL-ID") String memberId){
+        if(memberId == null) {
+            throw new UnauthorizedUserException();
+        }
+        return projectService.getProjectsByMemberId(Long.parseLong(memberId));
     }
 
     @GetMapping("/{projectId}")
-    public Project getProject(@PathVariable("projectId") Long projectId) {
-        return projectService.getProject(projectId);
+    public Project getProject(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        if(memberId == null) {
+            throw new UnauthorizedUserException();
+        }
+        return projectService.getProject(projectId, Long.parseLong(memberId));
     }
 
     @PostMapping
@@ -32,32 +39,40 @@ public class ProjectController {
     }
 
     @PutMapping
-    public ResultResponse updateProject(@RequestBody Project project, @RequestHeader("MEMBER-SERIAL-ID") Long adminId) {
-        projectService.updateProject(project, adminId);
+    public ResultResponse updateProject(@RequestBody Project project, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        if(memberId == null) {
+            throw new UnauthorizedUserException();
+        }
+        projectService.updateProject(project, Long.parseLong(memberId));
         return new ResultResponse("ok");
     }
 
     @DeleteMapping("/{projectId}")
-    public ResultResponse deleteProject(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") Long adminId) {
-        projectService.deleteProject(projectId, adminId);
+    public ResultResponse deleteProject(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        if(memberId == null) {
+            throw new UnauthorizedUserException();
+        }
+        projectService.deleteProject(projectId, Long.parseLong(memberId));
         return new ResultResponse("ok");
     }
 
     @PostMapping("/member")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultResponse addProjectMember(@RequestBody ProjectMember projectMember, @RequestHeader("MEMBER-SERIAL-ID") Long adminId){
-        projectService.addProjectMember(projectMember, adminId);
+    public ResultResponse addProjectMember(@RequestBody ProjectMember projectMember, @RequestHeader("MEMBER-SERIAL-ID") String memberId){
+        if(memberId == null) {
+            throw new UnauthorizedUserException();
+        }
+        projectService.addProjectMember(projectMember, Long.parseLong(memberId));
         return new ResultResponse("created");
     }
 
     @DeleteMapping("/member")
-    public ResultResponse deleteProjectMember(@RequestBody ProjectMember projectMember, @RequestHeader("MEMBER-SERIAL-ID") Long adminId){
-        projectService.deleteProjectMember(projectMember, adminId);
+    public ResultResponse deleteProjectMember(@RequestBody ProjectMember projectMember, @RequestHeader("MEMBER-SERIAL-ID") String memberId){
+        if(memberId == null) {
+            throw new UnauthorizedUserException();
+        }
+        projectService.deleteProjectMember(projectMember, Long.parseLong(memberId));
         return new ResultResponse("ok");
     }
 
-    @GetMapping("/member/{memberId}")
-    public List<Project> getProjectsByMemberId(@PathVariable("memberId") Long memberId){
-        return projectService.getProjectsByMemberId(memberId);
-    }
 }
