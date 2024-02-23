@@ -9,8 +9,8 @@ public interface ProjectService {
     List<Project> getProjects();
     Project getProject(Long projectId);
     Project createProject(Project project);
-    void updateProject(Project project);
-    void deleteProject(Long projectId);
+    void updateProject(Project project, Long adminId);
+    void deleteProject(Long projectId, Long adminId);
     void addProjectMember(ProjectMember projectMember, Long adminId);
     void deleteProjectMember(ProjectMember projectMember, Long adminId);
     List<Project> getProjectsByMemberId(Long memberId);
