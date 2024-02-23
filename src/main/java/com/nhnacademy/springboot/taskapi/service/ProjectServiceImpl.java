@@ -20,12 +20,15 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public List<Project> getProjects() {
-        return projectRepository.findAll();
+    public List<Project> getProjectsByMemberId(Long memberId) {
+        return projectMemberRepository.findProjectsByPk_MemberId(memberId);
     }
 
     @Override
-    public Project getProject(Long projectId) {
+    public Project getProject(Long projectId, Long memberId) {
+        if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)) {
+            throw new ProjectMemberNotFoundException("User " + memberId + " is not a member of the project.");
+        }
         return projectRepository.findById(projectId).orElse(null);
     }
 
@@ -45,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
 
         if(!project.getAdminId().equals(adminId)) {
-            throw new UnauthorizedUserException();
+            throw new UnauthorizedUserException("Permission denied: You cannot update project.");
         }
 
         projectRepository.save(project);
@@ -59,7 +62,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
 
         if(!project.getAdminId().equals(adminId)) {
-            throw new UnauthorizedUserException();
+            throw new UnauthorizedUserException("Permission denied: You cannot delete project.");
         }
 
         projectRepository.deleteById(projectId);
@@ -75,7 +78,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
 
         if(!project.getAdminId().equals(adminId)) {
-            throw new UnauthorizedUserException();
+            throw new UnauthorizedUserException("Permission denied: You cannot add project member.");
         }
 
         if(projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)) {
@@ -95,7 +98,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
 
         if(!project.getAdminId().equals(adminId)) {
-            throw new UnauthorizedUserException();
+            throw new UnauthorizedUserException("Permission denied: You cannot delete project member.");
         }
 
         if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)) {
@@ -105,8 +108,4 @@ public class ProjectServiceImpl implements ProjectService{
         projectMemberRepository.deleteProjectMemberByPk_ProjectIdAndPk_MemberId(projectId, memberId);
     }
 
-    @Override
-    public List<Project> getProjectsByMemberId(Long memberId) {
-        return projectMemberRepository.findProjectsByPk_MemberId(memberId);
-    }
 }
