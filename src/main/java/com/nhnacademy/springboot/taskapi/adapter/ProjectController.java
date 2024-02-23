@@ -1,6 +1,10 @@
 package com.nhnacademy.springboot.taskapi.adapter;
 
 import com.nhnacademy.springboot.taskapi.domain.Project;
+import com.nhnacademy.springboot.taskapi.dto.ProjectMemberRegisterRequest;
+import com.nhnacademy.springboot.taskapi.dto.ProjectModifyRequest;
+import com.nhnacademy.springboot.taskapi.dto.ProjectRegisterRequest;
+import com.nhnacademy.springboot.taskapi.domain.ProjectMember;
 import com.nhnacademy.springboot.taskapi.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,30 +19,44 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping
-    public List<Project> getProjects() {
-        return projectService.getProjects();
+    public List<Project> getProjectsByMemberId(@RequestHeader("MEMBER-SERIAL-ID") String memberId){
+        return projectService.getProjectsByMemberId(Long.parseLong(memberId));
     }
 
-    @GetMapping("/{id}")
-    public Project getProject(@PathVariable("id") Long id) {
-        return projectService.getProject(id);
+    @GetMapping("/{projectId}")
+    public Project getProject(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        return projectService.getProject(projectId, Long.parseLong(memberId));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Project createProject(@RequestBody Project project) {
-        return projectService.createProject(project);
+    public Project createProject(@RequestBody ProjectRegisterRequest request, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        return projectService.createProject(request, Long.parseLong(memberId));
     }
 
     @PutMapping
-    public ResultResponse updateProject(@RequestBody Project project) {
-        projectService.updateProject(project);
+    public ResultResponse updateProject(@RequestBody ProjectModifyRequest request, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        projectService.updateProject(request, Long.parseLong(memberId));
         return new ResultResponse("ok");
     }
 
-    @DeleteMapping("/{id}")
-    public ResultResponse deleteProject(@PathVariable("id") Long id) {
-        projectService.deleteProject(id);
+    @DeleteMapping("/{projectId}")
+    public ResultResponse deleteProject(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        projectService.deleteProject(projectId, Long.parseLong(memberId));
         return new ResultResponse("ok");
     }
+
+    @PostMapping("/member")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResultResponse addProjectMember(@RequestBody ProjectMemberRegisterRequest request, @RequestHeader("MEMBER-SERIAL-ID") String memberId){
+        projectService.addProjectMember(request, Long.parseLong(memberId));
+        return new ResultResponse("created");
+    }
+
+    @DeleteMapping("/member")
+    public ResultResponse deleteProjectMember(@RequestBody ProjectMemberRegisterRequest request, @RequestHeader("MEMBER-SERIAL-ID") String memberId){
+        projectService.deleteProjectMember(request, Long.parseLong(memberId));
+        return new ResultResponse("ok");
+    }
+
 }
