@@ -9,6 +9,6 @@ import java.util.List;
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, ProjectMember.Pk> {
     ProjectMember save(ProjectMember projectMember);
     ProjectMember deleteProjectMemberByPk_ProjectIdAndPk_MemberId(Long projectId, Long memberId);
-    List<Project> findProjectsByPk_MemberId(Long memberId);
+    List<ProjectMember> findProjectsByPk_MemberId(Long memberId);
     boolean existsByPk_ProjectIdAndPk_MemberId(Long projectId, Long memberId);
 }
