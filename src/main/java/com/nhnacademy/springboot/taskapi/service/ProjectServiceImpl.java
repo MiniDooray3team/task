@@ -9,6 +9,7 @@ import com.nhnacademy.springboot.taskapi.exception.*;
 import com.nhnacademy.springboot.taskapi.repository.ProjectMemberRepository;
 import com.nhnacademy.springboot.taskapi.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public List<Project> getProjectsByMemberId(Long memberId) {
+    public List<ProjectMember> getProjectsByMemberId(Long memberId) {
         return projectMemberRepository.findProjectsByPk_MemberId(memberId);
     }
 
@@ -44,7 +45,12 @@ public class ProjectServiceImpl implements ProjectService{
         project.setAdminId(memberId);
         project.setProjectStatusId(request.getProjectStatusId());
 
-        return projectRepository.save(project);
+        Project savedProject = projectRepository.save(project);
+
+        ProjectMemberRegisterRequest projectMemberRegisterRequest = new ProjectMemberRegisterRequest(memberId, savedProject.getId());
+        addProjectMember(projectMemberRegisterRequest, memberId);
+
+        return savedProject;
     }
 
     @Override
@@ -69,6 +75,7 @@ public class ProjectServiceImpl implements ProjectService{
             throw new UnauthorizedUserException("Permission denied: You cannot delete project.");
         }
 
+        projectMemberRepository.deleteByPk_ProjectId(projectId);
         projectRepository.deleteById(projectId);
     }
 
@@ -99,6 +106,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    @Transactional
     public void deleteProjectMember(ProjectMemberRegisterRequest request, Long adminId) {
         Long projectId = request.getProjectId();
         Long memberId = request.getMemberId();

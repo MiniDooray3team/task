@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "task_status")
 public class TaskStatus {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
