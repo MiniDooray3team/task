@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +21,11 @@ public class ProjectController {
 
     @GetMapping
     public List<Project> getProjectsByMemberId(@RequestHeader("MEMBER-SERIAL-ID") String memberId){
-        return projectService.getProjectsByMemberId(Long.parseLong(memberId));
+        List<ProjectMember> projectMembers = projectService.getProjectsByMemberId(Long.parseLong(memberId));
+        List<Project> projects = projectMembers.stream()
+                .map(ProjectMember::getProject)
+                .collect(Collectors.toList());
+        return projects;
     }
 
     @GetMapping("/{projectId}")
