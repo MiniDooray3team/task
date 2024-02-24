@@ -1,0 +1,32 @@
+### POST Create Task
+POST http://localhost:8082/project/29/task
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "name": "New Task"
+}
+
+### GET Project Task Headers
+GET http://localhost:8082/project/29/task
+
+### GET Task Details
+GET http://localhost:8082/project/29/task/1
+
+### PUT Update Task
+PUT http://localhost:8082/project/29/task
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "id": 1,
+  "name": "hani",
+  "milestoneId": 1,
+  "content": "1004",
+  "taskStatusId": 2,
+  "tags": [1,2,3]
+}
+
+### DELETE Task
+DELETE http://localhost:8082/project/29/task/1
+MEMBER-SERIAL-ID: 1
