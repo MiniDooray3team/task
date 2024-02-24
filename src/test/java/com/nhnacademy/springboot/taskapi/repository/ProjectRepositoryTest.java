@@ -20,7 +20,7 @@ class ProjectRepositoryTest {
 
         @Test
         void getProject() {
-                Project project = new Project(1L, "프로젝트 A", LocalDateTime.of(2024,2,22,19,0,0), 1, 1L);
+                Project project = new Project(1L, "미니", LocalDateTime.of(2024,2,25,05,33,43), 1L, 1L);
                 Optional<Project> actual = projectRepository.findById(1L);
                 Assertions.assertThat(actual).isPresent();
                 Assertions.assertThat(actual.get()).usingRecursiveComparison().isEqualTo(project);
