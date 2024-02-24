@@ -1,9 +1,7 @@
 package com.nhnacademy.springboot.taskapi.service;
 
-import com.nhnacademy.springboot.taskapi.domain.MileStone;
-import com.nhnacademy.springboot.taskapi.domain.Project;
-import com.nhnacademy.springboot.taskapi.domain.Task;
-import com.nhnacademy.springboot.taskapi.domain.TaskStatus;
+import com.nhnacademy.springboot.taskapi.domain.*;
+import com.nhnacademy.springboot.taskapi.dto.TaskHeader;
 import com.nhnacademy.springboot.taskapi.dto.TaskModifyRequest;
 import com.nhnacademy.springboot.taskapi.dto.TaskRegisterRequest;
 import com.nhnacademy.springboot.taskapi.exception.MileStoneNotFoundException;
@@ -14,7 +12,9 @@ import com.nhnacademy.springboot.taskapi.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -22,17 +22,39 @@ public class TaskServiceImpl implements TaskService {
     private final ProjectRepository projectRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final MileStoneRepository mileStoneRepository;
+    private final TaskTagRepository taskTagRepository;
 
-    public TaskServiceImpl(TaskRepository taskRepository, ProjectRepository projectRepository, ProjectMemberRepository projectMemberRepository, MileStoneRepository mileStoneRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, ProjectRepository projectRepository, ProjectMemberRepository projectMemberRepository, MileStoneRepository mileStoneRepository, TaskTagRepository taskTagRepository) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
         this.projectMemberRepository = projectMemberRepository;
         this.mileStoneRepository = mileStoneRepository;
+        this.taskTagRepository = taskTagRepository;
     }
 
     @Override
-    public List<Task> getTasks(Long projectId) {
-        return taskRepository.findAllByProjectId(projectId);
+    public List<TaskHeader> getProjectTaskHeaders(Long projectId) {
+        List<Task> taskList = taskRepository.findAllByProjectId(projectId);
+        List<TaskHeader> taskHeaderList = new ArrayList<>();
+        for (Task task : taskList) {
+            TaskHeader taskHeader = new TaskHeader();
+            taskHeader.setId(task.getId());
+            taskHeader.setName(task.getName());
+            taskHeader.setCreatedAt(task.getCreatedAt());
+
+            taskHeader.setMilestone(task.getMileStone().getName());
+            taskHeader.setTaskStatus(task.getTaskStatus());
+
+            List<TaskTag> taskTags = taskTagRepository.findByTaskId(task.getId());
+            List<TaskHeader.TagDTO> tagDTOs = taskTags.stream()
+                    .map(taskTag -> new TaskHeader.TagDTO(taskTag.getTag().getId(), taskTag.getTag().getName()))
+                    .collect(Collectors.toList());
+            taskHeader.setTags(tagDTOs);
+
+            taskHeaderList.add(taskHeader);
+        }
+
+        return taskHeaderList;
     }
 
     @Override
@@ -41,8 +63,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task createTask(TaskRegisterRequest request, Long memberId) {
-        Long projectId = request.getProjectId();
+    public Task createTask(Long projectId, TaskRegisterRequest request, Long memberId) {
         Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 
         if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)){
