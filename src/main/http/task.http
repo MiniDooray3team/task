@@ -11,32 +11,22 @@ MEMBER-SERIAL-ID: 1
 GET http://localhost:8082/project/29/task
 
 ### GET Task Details
-GET http://localhost:8082/project/29/task/456
-
+GET http://localhost:8082/project/29/task/1
 
 ### PUT Update Task
 PUT http://localhost:8082/project/29/task
 Content-Type: application/json
-MEMBER-SERIAL-ID: 789
+MEMBER-SERIAL-ID: 1
 
 {
-  "id": 456,
-  "name": "Updated Task",
-  "createdAt": "2024-02-25",
-  "milestoneId": 789,
-  "content": "Updated Task Content",
-  "taskStatus": {
-    "id": 2,
-    "name": "In Progress"
-  },
-  "tags": [
-    {
-      "id": 3,
-      "name": "Tag3"
-    }
-  ]
+  "id": 1,
+  "name": "hani",
+  "milestoneId": 1,
+  "content": "1004",
+  "taskStatusId": 2,
+  "tags": [1,2,3]
 }
 
 ### DELETE Task
-DELETE http://localhost:8082/project/29/task/456
-MEMBER-SERIAL-ID: 789
+DELETE http://localhost:8082/project/29/task/1
+MEMBER-SERIAL-ID: 1

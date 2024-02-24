@@ -4,6 +4,7 @@ import com.nhnacademy.springboot.taskapi.domain.Task;
 import com.nhnacademy.springboot.taskapi.dto.TaskHeader;
 import com.nhnacademy.springboot.taskapi.dto.TaskModifyRequest;
 import com.nhnacademy.springboot.taskapi.dto.TaskRegisterRequest;
+import com.nhnacademy.springboot.taskapi.dto.TaskResponse;
 import com.nhnacademy.springboot.taskapi.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
-    public Task getTask(@PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId) {
-        return taskService.getTask(projectId, taskId);
+    public TaskResponse getTask(@PathVariable("taskId") Long taskId) {
+        return taskService.getTask(taskId);
     }
 
     @PostMapping
