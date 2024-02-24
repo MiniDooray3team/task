@@ -44,7 +44,12 @@ public class ProjectServiceImpl implements ProjectService{
         project.setAdminId(memberId);
         project.setProjectStatusId(request.getProjectStatusId());
 
-        return projectRepository.save(project);
+        Project savedProject = projectRepository.save(project);
+
+        ProjectMemberRegisterRequest projectMemberRegisterRequest = new ProjectMemberRegisterRequest(memberId, savedProject.getId());
+        addProjectMember(projectMemberRegisterRequest, memberId);
+
+        return savedProject;
     }
 
     @Override
@@ -70,6 +75,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
 
         projectRepository.deleteById(projectId);
+        projectMemberRepository.deleteByPk_ProjectId(projectId);
     }
 
     @Override

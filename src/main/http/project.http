@@ -1,0 +1,52 @@
+### 프로젝트 생성
+POST http://localhost:8082/project
+Content-Type: application/json
+MEMBER-SERIAL-ID: 2
+
+{
+  "name": "New Project",
+  "projectStatusId": 2
+}
+
+### 전체 프로젝트 조회
+GET http://localhost:8082/project
+MEMBER-SERIAL-ID: 1
+
+### 프로젝트 조회
+GET http://localhost:8082/project/8
+MEMBER-SERIAL-ID: 1
+
+### 프로젝트 수정
+PUT http://localhost:8082/project
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "id": 2,
+  "name": "Updated Project Name",
+  "projectStatusId": 2
+}
+
+### 프로젝트 삭제
+DELETE http://localhost:8082/project/10
+MEMBER-SERIAL-ID: 1
+
+### 프로젝트멤버 추가
+POST http://localhost:8082/project/member
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "projectId": 19,
+  "memberId": 1
+}
+
+### 프로젝트멤버 삭제
+DELETE http://localhost:8082/project/member
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "projectId": 11,
+  "memberId": 2
+}
