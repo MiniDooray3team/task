@@ -9,6 +9,7 @@ import com.nhnacademy.springboot.taskapi.exception.*;
 import com.nhnacademy.springboot.taskapi.repository.ProjectMemberRepository;
 import com.nhnacademy.springboot.taskapi.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -74,8 +75,8 @@ public class ProjectServiceImpl implements ProjectService{
             throw new UnauthorizedUserException("Permission denied: You cannot delete project.");
         }
 
-        projectRepository.deleteById(projectId);
         projectMemberRepository.deleteByPk_ProjectId(projectId);
+        projectRepository.deleteById(projectId);
     }
 
     @Override
@@ -105,6 +106,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    @Transactional
     public void deleteProjectMember(ProjectMemberRegisterRequest request, Long adminId) {
         Long projectId = request.getProjectId();
         Long memberId = request.getMemberId();
