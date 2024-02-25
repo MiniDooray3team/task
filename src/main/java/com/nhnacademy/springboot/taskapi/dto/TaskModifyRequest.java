@@ -1,6 +1,5 @@
 package com.nhnacademy.springboot.taskapi.dto;
 
-import com.nhnacademy.springboot.taskapi.domain.MileStone;
 import lombok.Getter;
 import lombok.Setter;
 

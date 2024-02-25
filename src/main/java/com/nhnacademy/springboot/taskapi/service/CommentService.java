@@ -1,6 +1,5 @@
 package com.nhnacademy.springboot.taskapi.service;
 
-import com.nhnacademy.springboot.taskapi.domain.Comment;
 import com.nhnacademy.springboot.taskapi.dto.CommentDto;
 import com.nhnacademy.springboot.taskapi.dto.CommentRegisterResponse;
 

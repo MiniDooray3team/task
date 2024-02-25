@@ -9,7 +9,6 @@ import com.nhnacademy.springboot.taskapi.exception.*;
 import com.nhnacademy.springboot.taskapi.repository.ProjectMemberRepository;
 import com.nhnacademy.springboot.taskapi.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
