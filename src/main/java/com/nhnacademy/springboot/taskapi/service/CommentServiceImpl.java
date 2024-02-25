@@ -3,7 +3,6 @@ package com.nhnacademy.springboot.taskapi.service;
 import com.nhnacademy.springboot.taskapi.domain.*;
 import com.nhnacademy.springboot.taskapi.dto.CommentDto;
 import com.nhnacademy.springboot.taskapi.dto.CommentRegisterResponse;
-import com.nhnacademy.springboot.taskapi.dto.TaskResponse;
 import com.nhnacademy.springboot.taskapi.exception.*;
 import com.nhnacademy.springboot.taskapi.repository.CommentRepository;
 import com.nhnacademy.springboot.taskapi.repository.ProjectMemberRepository;
