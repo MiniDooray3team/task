@@ -60,7 +60,6 @@ public class ProjectController {
     }
 
     @GetMapping("/{projectId}/member")
-    @ResponseStatus(HttpStatus.CREATED)
     public List<ProjectMemberDto> getProjectMembers(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId){
         return projectService.getProjectMembers(projectId, Long.parseLong(memberId));
     }
