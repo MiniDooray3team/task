@@ -22,7 +22,7 @@ public class Task {
     Project project;
 
     @JoinColumn(name = "milestone_id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     MileStone mileStone;
 
     @Column(name = "name")
