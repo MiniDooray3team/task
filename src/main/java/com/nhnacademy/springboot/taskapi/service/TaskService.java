@@ -5,6 +5,7 @@ import com.nhnacademy.springboot.taskapi.dto.TaskHeader;
 import com.nhnacademy.springboot.taskapi.dto.TaskModifyRequest;
 import com.nhnacademy.springboot.taskapi.dto.TaskRegisterRequest;
 import com.nhnacademy.springboot.taskapi.dto.TaskResponse;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ public interface TaskService {
     TaskResponse getTask(Long taskId, Long projectId,  Long memberId);
     Task createTask(Long projectId, TaskRegisterRequest request, Long memberId);
     void updateTask(Long projectId, TaskModifyRequest request, Long memberId);
+    @Transactional
     void deleteTask(Long projectId, Long taskId, Long memberId);
 }

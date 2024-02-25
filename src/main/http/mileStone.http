@@ -1,27 +1,29 @@
 ### GET 마일스톤 리스트
-GET http://localhost:8082/project/29/mileStone
+GET http://localhost:8082/project/1/mileStone
 MEMBER-SERIAL-ID: 1
 
 ### POST 마일스톤
-POST http://localhost:8082/project/29/mileStone
+POST http://localhost:8082/project/1/mileStone
 Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
-  "name": "일요일"
-}
-
-### PUT 마일스톤
-PUT http://localhost:8082/project/29/mileStone
-Content-Type: application/json
-MEMBER-SERIAL-ID: 1
-
-{
-  "id": 4,
-  "name": "일요일",
+  "name": "5주차",
   "startAt": "2024-12-14T07:00:00"
 }
 
+### PUT 마일스톤
+PUT http://localhost:8082/project/1/mileStone
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "id": 1,
+  "name": "2주차",
+  "startAt": "2024-12-14T07:00:00",
+  "stopAt": "2024-12-15T07:00:00"
+}
+
 ### DELETE 마일스톤
-DELETE http://localhost:8082/project/29/mileStone/3
+DELETE http://localhost:8082/project/1/mileStone/3
 MEMBER-SERIAL-ID: 1
