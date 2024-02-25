@@ -15,30 +15,18 @@ public class TaskHeader {
     private LocalDateTime createdAt;
     private String milestone;
     private TaskStatus taskStatus;
-    private List<TagDTO> tags;
+    private List<TagDto> tags;
 
     public TaskHeader() {
 
     }
 
-    public TaskHeader(Long id, String name, LocalDateTime createdAt, String milestone, TaskStatus taskStatus, List<TagDTO> tags) {
+    public TaskHeader(Long id, String name, LocalDateTime createdAt, String milestone, TaskStatus taskStatus, List<TagDto> tags) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;
         this.milestone = milestone;
         this.taskStatus = taskStatus;
         this.tags = tags;
-    }
-
-    @Getter
-    @Setter
-    public static class TagDTO {
-        private Long id;
-        private String name;
-
-        public TagDTO(Long id, String name) {
-            this.id = id;
-            this.name = name;
-        }
     }
 }

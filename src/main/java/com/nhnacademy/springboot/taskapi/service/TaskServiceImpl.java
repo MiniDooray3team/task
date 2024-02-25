@@ -49,8 +49,8 @@ public class TaskServiceImpl implements TaskService {
             }
 
             List<TaskTag> taskTags = taskTagRepository.findByTaskId(task.getId());
-            List<TaskHeader.TagDTO> tagDTOs = taskTags.stream()
-                    .map(taskTag -> new TaskHeader.TagDTO(taskTag.getTag().getId(), taskTag.getTag().getName()))
+            List<TagDto> tagDTOs = taskTags.stream()
+                    .map(taskTag -> new TagDto(taskTag.getTag().getId(), taskTag.getTag().getName()))
                     .collect(Collectors.toList());
             taskHeader.setTags(tagDTOs);
 
@@ -111,11 +111,11 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.save(task);
 
-        for (Long tagId : request.getTags()) {
-            if(!taskTagRepository.existsByTagIdAndTaskId(tagId, task.getId())){
+        for (TagDto tagDto : request.getTags()) {
+            if(!taskTagRepository.existsByTagIdAndTaskId(tagDto.getId(), task.getId())){
                 TaskTag taskTag = new TaskTag();
 
-                Tag tag = tagRepository.findById(tagId).orElseThrow(ProjectNotFoundException::new);
+                Tag tag = tagRepository.findById(tagDto.getId()).orElseThrow(ProjectNotFoundException::new);
                 taskTag.setTag(tag);
                 taskTag.setTask(task);
 
