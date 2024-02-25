@@ -79,6 +79,7 @@ public class TaskServiceImpl implements TaskService {
         taskResponse.setTaskStatus(task.getTaskStatus());
         taskResponse.setMileStone(task.getMileStone());
         taskResponse.setCreatedAt(task.getCreatedAt());
+        taskResponse.setAdmin_id(task.getAdminId());
         taskResponse.setContent(task.getContent());
 
         return taskResponse;
@@ -122,6 +123,7 @@ public class TaskServiceImpl implements TaskService {
         task.setTaskStatus(taskStatus);
 
         taskRepository.save(task);
+
 
         for (TagDto tagDto : request.getTags()) {
             if(!taskTagRepository.existsByTagIdAndTaskId(tagDto.getId(), task.getId())){
