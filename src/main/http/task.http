@@ -22,14 +22,21 @@ MEMBER-SERIAL-ID: 1
 
 {
   "id": 6,
-  "name": "hani",
-  "milestoneId": 1,
+  "name": "호호",
+  "mileStoneDto": {
+    "id": 4,
+    "name": "일요일"
+  },
   "content": "1004",
   "taskStatusId": 2,
   "tags": [
     {
-      "id": 1,
-      "name": "졸리다"
+      "id": 2,
+      "name": "배터져"
+    },
+    {
+      "id": 3,
+      "name": "으아아"
     }
   ]
 }

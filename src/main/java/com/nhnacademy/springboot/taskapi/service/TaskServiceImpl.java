@@ -113,8 +113,10 @@ public class TaskServiceImpl implements TaskService {
         task.setName(request.getName());
         task.setContent(request.getContent());
 
-        MileStone mileStone = mileStoneRepository.findById(request.getMilestoneId()).orElseThrow(MileStoneNotFoundException::new);
-        task.setMileStone(mileStone);
+        if(request.getMileStoneDto() != null){
+            MileStone mileStone = mileStoneRepository.findById(request.getMileStoneDto().getId()).orElseThrow(MileStoneNotFoundException::new);
+            task.setMileStone(mileStone);
+        }
 
         TaskStatus taskStatus = taskStatusRepository.findById(request.getTaskStatusId()).orElseThrow(TaskStatusNotFoundException::new);
         task.setTaskStatus(taskStatus);
@@ -125,7 +127,7 @@ public class TaskServiceImpl implements TaskService {
             if(!taskTagRepository.existsByTagIdAndTaskId(tagDto.getId(), task.getId())){
                 TaskTag taskTag = new TaskTag();
 
-                Tag tag = tagRepository.findById(tagDto.getId()).orElseThrow(ProjectNotFoundException::new);
+                Tag tag = tagRepository.findById(tagDto.getId()).orElseThrow(TagNotFoundException::new);
                 taskTag.setTag(tag);
                 taskTag.setTask(task);
 
