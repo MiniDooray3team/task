@@ -19,13 +19,13 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    public List<TaskHeader> getProjectTaskHeaders(@PathVariable("projectId") Long projectId) {
-        return taskService.getProjectTaskHeaders(projectId);
+    public List<TaskHeader> getProjectTaskHeaders(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        return taskService.getProjectTaskHeaders(projectId, Long.parseLong(memberId));
     }
 
     @GetMapping("/{taskId}")
-    public TaskResponse getTask(@PathVariable("taskId") Long taskId) {
-        return taskService.getTask(taskId);
+    public TaskResponse getTask(@PathVariable("taskId") Long taskId, @PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        return taskService.getTask(taskId, projectId, Long.parseLong(memberId));
     }
 
     @PostMapping

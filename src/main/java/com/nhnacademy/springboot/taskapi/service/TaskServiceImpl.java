@@ -32,7 +32,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskHeader> getProjectTaskHeaders(Long projectId) {
+    public List<TaskHeader> getProjectTaskHeaders(Long projectId, Long memberId) {
+        if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)){
+            throw new ProjectMemberNotFoundException();
+        }
+
         List<Task> taskList = taskRepository.findAllByProjectId(projectId);
         List<TaskHeader> taskHeaderList = new ArrayList<>();
         for (Task task : taskList) {
@@ -61,7 +65,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse getTask(Long taskId) {
+    public TaskResponse getTask(Long taskId, Long projectId, Long memberId) {
+        if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)){
+            throw new ProjectMemberNotFoundException();
+        }
+
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
 
@@ -79,6 +87,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task createTask(Long projectId, TaskRegisterRequest request, Long memberId) {
         Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        TaskStatus defaultTaskStatus = taskStatusRepository.findById(1L).orElseThrow(TaskStatusNotFoundException::new);
 
         if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)){
             throw new ProjectMemberNotFoundException();
@@ -89,6 +98,7 @@ public class TaskServiceImpl implements TaskService {
         task.setName(request.getName());
         task.setAdminId(memberId);
         task.setProject(project);
+        task.setTaskStatus(defaultTaskStatus);
 
         return taskRepository.save(task);
     }
