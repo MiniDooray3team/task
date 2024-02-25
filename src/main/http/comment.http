@@ -1,0 +1,27 @@
+### GET 코멘트 리스트
+GET http://localhost:8082/task/123/comments
+MEMBER-SERIAL-ID: 1
+
+### POST 코멘트
+POST http://localhost:8082/project/29/task/6/comment
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "content": "This is a new comment"
+}
+
+### PUT 코멘트
+PUT http://localhost:8082/project/29/task/6/comment
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "id": 1,
+  "content": "Updated comment content"
+}
+
+### DELETE 코멘트
+DELETE http://localhost:8082/project/29/task/6/comment/1
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
