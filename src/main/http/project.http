@@ -1,10 +1,10 @@
 ### POST 프로젝트
 POST http://localhost:8082/project
 Content-Type: application/json
-MEMBER-SERIAL-ID: 2
+MEMBER-SERIAL-ID: 1
 
 {
-  "name": "New Project",
+  "name": "Project10",
   "projectStatusId": 1
 }
 
@@ -13,7 +13,7 @@ GET http://localhost:8082/project
 MEMBER-SERIAL-ID: 1
 
 ### GET 프로젝트
-GET http://localhost:8082/project/26
+GET http://localhost:8082/project/1
 MEMBER-SERIAL-ID: 1
 
 ### PUT 프로젝트
@@ -22,28 +22,28 @@ Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
-  "id": 26,
-  "name": "Updated Project Name",
+  "id": 1,
+  "name": "Updated",
   "projectStatusId": 2
 }
 
 ### DELETE 프로젝트
-DELETE http://localhost:8082/project/28
+DELETE http://localhost:8082/project/10
 MEMBER-SERIAL-ID: 1
 
 ### POST 프로젝트멤버
 POST http://localhost:8082/project/member
 Content-Type: application/json
-MEMBER-SERIAL-ID: 1
+MEMBER-SERIAL-ID: 2
 
 {
-  "projectId": 28,
-  "memberId": 2
+  "projectId": 2,
+  "memberId": 3
 }
 
 ### GET 프로젝트멤버 리스트
-GET http://localhost:8082/project/29/member
-MEMBER-SERIAL-ID: 1
+GET http://localhost:8082/project/2/member
+MEMBER-SERIAL-ID: 2
 
 ### DELETE 프로젝트멤버
 DELETE http://localhost:8082/project/member
@@ -51,6 +51,6 @@ Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
-  "projectId": 29,
-  "memberId": 2
+  "projectId": 1,
+  "memberId": 4
 }

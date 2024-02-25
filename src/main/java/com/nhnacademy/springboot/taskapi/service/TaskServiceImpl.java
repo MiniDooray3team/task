@@ -20,8 +20,9 @@ public class TaskServiceImpl implements TaskService {
     private final TaskTagRepository taskTagRepository;
     private final TaskStatusRepository taskStatusRepository;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
 
-    public TaskServiceImpl(TaskRepository taskRepository, ProjectRepository projectRepository, ProjectMemberRepository projectMemberRepository, MileStoneRepository mileStoneRepository, TaskTagRepository taskTagRepository, TaskStatusRepository taskStatusRepository, TagRepository tagRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, ProjectRepository projectRepository, ProjectMemberRepository projectMemberRepository, MileStoneRepository mileStoneRepository, TaskTagRepository taskTagRepository, TaskStatusRepository taskStatusRepository, TagRepository tagRepository, CommentRepository commentRepository) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
         this.projectMemberRepository = projectMemberRepository;
@@ -29,6 +30,7 @@ public class TaskServiceImpl implements TaskService {
         this.taskTagRepository = taskTagRepository;
         this.taskStatusRepository = taskStatusRepository;
         this.tagRepository = tagRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -148,6 +150,9 @@ public class TaskServiceImpl implements TaskService {
 
         List<TaskTag> taskTags = taskTagRepository.findByTaskId(taskId);
         taskTagRepository.deleteAll(taskTags);
+
+        Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+        commentRepository.deleteAllByTask(task);
 
         taskRepository.deleteById(taskId);
     }

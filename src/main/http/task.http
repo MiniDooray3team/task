@@ -1,46 +1,46 @@
 ### POST 테스크
-POST http://localhost:8082/project/29/task
+POST http://localhost:8082/project/1/task
 Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
-  "name": "New Task"
+  "name": "Task1"
 }
 
 ### GET 테스크헤더
-GET http://localhost:8082/project/29/task
+GET http://localhost:8082/project/1/task
 MEMBER-SERIAL-ID: 1
 
 ### GET 테스크상세
-GET http://localhost:8082/project/29/task/6
+GET http://localhost:8082/project/1/task/1
 MEMBER-SERIAL-ID: 1
 
 ### PUT 테스크
-PUT http://localhost:8082/project/29/task
+PUT http://localhost:8082/project/1/task
 Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
-  "id": 6,
-  "name": "호호",
+  "id": 1,
+  "name": "Updated Task",
   "mileStoneDto": {
-    "id": 4,
-    "name": "일요일"
+    "id": 2,
+    "name": "3주차"
   },
-  "content": "1004",
+  "content": "안녕하세요, 수정합시다",
   "taskStatusId": 2,
   "tags": [
     {
-      "id": 2,
-      "name": "배터져"
+      "id": 1,
+      "name": "월요일"
     },
     {
-      "id": 3,
-      "name": "으아아"
+      "id": 2,
+      "name": "화요일"
     }
   ]
 }
 
 ### DELETE 테스크
-DELETE http://localhost:8082/project/29/task/1
+DELETE http://localhost:8082/project/1/task/1
 MEMBER-SERIAL-ID: 1
