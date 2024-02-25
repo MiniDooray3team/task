@@ -1,8 +1,14 @@
 package com.nhnacademy.springboot.taskapi.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "task")
 public class Task {
@@ -16,7 +22,7 @@ public class Task {
     Project project;
 
     @JoinColumn(name = "milestone_id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     MileStone mileStone;
 
     @Column(name = "name")
@@ -36,7 +42,7 @@ public class Task {
     @ManyToOne
     TaskStatus taskStatus;
 
-
-
+    @OneToMany(mappedBy = "task")
+    List<TaskTag> taskTags;
 
 }

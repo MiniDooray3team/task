@@ -25,6 +25,8 @@ public class ProjectMember {
     @Embeddable
     @NoArgsConstructor
     @EqualsAndHashCode
+    @Getter
+    @Setter
     public static class Pk implements Serializable {
         @Column(name = "project_id")
         Long projectId;

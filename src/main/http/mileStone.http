@@ -1,0 +1,17 @@
+### GET 마일스톤 리스트
+GET http://localhost:8082/project/29/mileStone
+MEMBER-SERIAL-ID: 1
+
+### POST 마일스톤
+
+POST http://localhost:8082/project/29/mileStone
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "name": "일요일"
+}
+
+### DELETE 마일스톤
+DELETE http://localhost:8082/project/29/mileStone/3
+MEMBER-SERIAL-ID: 1
