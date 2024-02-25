@@ -2,9 +2,7 @@ package com.nhnacademy.springboot.taskapi.service;
 
 import com.nhnacademy.springboot.taskapi.domain.Project;
 import com.nhnacademy.springboot.taskapi.domain.ProjectMember;
-import com.nhnacademy.springboot.taskapi.dto.ProjectMemberRegisterRequest;
-import com.nhnacademy.springboot.taskapi.dto.ProjectModifyRequest;
-import com.nhnacademy.springboot.taskapi.dto.ProjectRegisterRequest;
+import com.nhnacademy.springboot.taskapi.dto.*;
 import com.nhnacademy.springboot.taskapi.exception.*;
 import com.nhnacademy.springboot.taskapi.repository.ProjectMemberRepository;
 import com.nhnacademy.springboot.taskapi.repository.ProjectRepository;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
@@ -76,6 +75,21 @@ public class ProjectServiceImpl implements ProjectService{
 
         projectMemberRepository.deleteByPk_ProjectId(projectId);
         projectRepository.deleteById(projectId);
+    }
+
+    @Override
+    public List<ProjectMemberDto> getProjectMembers(Long projectId, Long memberId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+
+        if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)) {
+            throw new ProjectNotFoundException();
+        }
+
+        List<ProjectMember> projectMembers = projectMemberRepository.findAllByProject(project);
+        List<ProjectMemberDto> projectMemberDtos = projectMembers.stream()
+                .map(projectMember -> new ProjectMemberDto(projectMember.getPk().getMemberId())).collect(Collectors.toList());
+
+        return projectMemberDtos;
     }
 
     @Override
