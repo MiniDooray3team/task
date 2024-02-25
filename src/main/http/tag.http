@@ -1,0 +1,16 @@
+### GET 태그 리스트
+GET http://localhost:8082/project/29/tag
+MEMBER-SERIAL-ID: 1
+
+### POST 태그
+
+POST http://localhost:8082/project/29/tag
+Content-Type: application/json
+
+{
+  "name": "일요일"
+}
+
+### DELETE 태그
+DELETE http://localhost:8082/project/29/tag/1
+MEMBER-SERIAL-ID: 1

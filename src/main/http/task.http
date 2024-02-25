@@ -9,9 +9,11 @@ MEMBER-SERIAL-ID: 1
 
 ### GET Project Task Headers
 GET http://localhost:8082/project/29/task
+MEMBER-SERIAL-ID: 1
 
 ### GET Task Details
-GET http://localhost:8082/project/29/task/1
+GET http://localhost:8082/project/29/task/6
+MEMBER-SERIAL-ID: 1
 
 ### PUT Update Task
 PUT http://localhost:8082/project/29/task
@@ -19,12 +21,17 @@ Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
-  "id": 1,
+  "id": 6,
   "name": "hani",
   "milestoneId": 1,
   "content": "1004",
   "taskStatusId": 2,
-  "tags": [1,2,3]
+  "tags": [
+    {
+      "id": 1,
+      "name": "졸리다"
+    }
+  ]
 }
 
 ### DELETE Task

@@ -106,7 +106,6 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    @Transactional
     public void deleteProjectMember(ProjectMemberRegisterRequest request, Long adminId) {
         Long projectId = request.getProjectId();
         Long memberId = request.getMemberId();

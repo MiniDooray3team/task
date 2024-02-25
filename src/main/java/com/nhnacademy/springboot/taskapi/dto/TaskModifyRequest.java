@@ -1,7 +1,5 @@
 package com.nhnacademy.springboot.taskapi.dto;
 
-import com.nhnacademy.springboot.taskapi.domain.TaskStatus;
-import com.nhnacademy.springboot.taskapi.domain.TaskTag;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +13,7 @@ public class TaskModifyRequest {
     private Long milestoneId;
     private String content;
     private Long taskStatusId;
-    private List<Long> tags;
+    private List<TagDto> tags;
 
     @Getter
     @Setter
@@ -31,7 +29,7 @@ public class TaskModifyRequest {
         private String name;
     }
 
-    public TaskModifyRequest(Long id, String name, Long milestoneId, String content, Long taskStatusId, List<Long> tags) {
+    public TaskModifyRequest(Long id, String name, Long milestoneId, String content, Long taskStatusId, List<TagDto> tags) {
         this.id = id;
         this.name = name;
         this.milestoneId = milestoneId;

@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface TaskTagRepository extends JpaRepository<TaskTag, Long> {
     List<TaskTag> findByTaskId(Long taskId);
+    void deleteAllByTagId(Long tagId);
     boolean existsByTagIdAndTaskId(Long tagId, Long taskId);
 }

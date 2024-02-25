@@ -1,6 +1,8 @@
 package com.nhnacademy.springboot.taskapi.adapter;
 
 import com.nhnacademy.springboot.taskapi.domain.Tag;
+import com.nhnacademy.springboot.taskapi.dto.TagDto;
+import com.nhnacademy.springboot.taskapi.dto.TagRegisterRequest;
 import com.nhnacademy.springboot.taskapi.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,35 +12,24 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/tag")
+@RequestMapping("/project/{projectId}/tag")
 public class TagController {
     private final TagService tagService;
 
     @GetMapping
-    public List<Tag> getTags() {
-        return tagService.getTags();
-    }
-
-    @GetMapping("/{id}")
-    public Tag getTag(@PathVariable("id") Long id) {
-        return tagService.getTag(id);
+    public List<TagDto> getTags(@PathVariable("projectId") Long projectId) {
+        return tagService.getTags(projectId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Tag createTag(@RequestBody Tag tag) {
-        return tagService.createTag(tag);
+    public Tag createTag(@RequestBody TagRegisterRequest request, @PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        return tagService.createTag(request, projectId, Long.parseLong(memberId));
     }
 
-    @PutMapping
-    public ResultResponse updateTag(@RequestBody Tag tag) {
-        tagService.updateTag(tag);
-        return new ResultResponse("ok");
-    }
-
-    @DeleteMapping("/{id}")
-    public ResultResponse deleteTag(@PathVariable("id") Long id) {
-        tagService.deleteTag(id);
+    @DeleteMapping("/{tagId}")
+    public ResultResponse deleteTag(@PathVariable("tagId") Long tagId, @PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId) {
+        tagService.deleteTag(tagId, projectId, Long.parseLong(memberId));
         return new ResultResponse("ok");
     }
 }

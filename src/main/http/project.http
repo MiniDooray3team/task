@@ -47,6 +47,6 @@ Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
-  "projectId": 26,
+  "projectId": 29,
   "memberId": 2
 }

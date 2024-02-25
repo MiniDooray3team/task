@@ -17,7 +17,7 @@ public class Tag {
 
     @JoinColumn(name = "project_id")
     @ManyToOne
-    Project projectId;
+    Project project;
 
     @Column(name = "name")
     String name;
