@@ -6,6 +6,7 @@ MEMBER-SERIAL-ID: 1
 
 POST http://localhost:8082/project/29/tag
 Content-Type: application/json
+MEMBER-SERIAL-ID: 1
 
 {
   "name": "일요일"
