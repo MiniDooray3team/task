@@ -10,5 +10,6 @@ import java.util.List;
 public interface MileStoneService {
     List<MileStoneDto> getMileStones(Long projectId);
     MileStone createMileStone(MileStoneRegisterRequest request, Long projectId, Long memberId);
+    void updateMileStone(MileStoneDto request, Long projectId, Long memberId);
     void deleteMileStone(Long mileStoneId, Long projectId, Long memberId);
 }
