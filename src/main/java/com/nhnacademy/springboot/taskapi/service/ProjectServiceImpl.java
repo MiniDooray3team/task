@@ -29,6 +29,8 @@ public class ProjectServiceImpl implements ProjectService{
         return projectMemberRepository.findProjectsByPk_MemberId(memberId);
     }
 
+
+
     @Override
     public Project getProject(Long projectId, Long memberId) {
         if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)) {
