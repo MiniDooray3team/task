@@ -1,6 +1,7 @@
 package com.nhnacademy.springboot.taskapi.adapter;
 
 import com.nhnacademy.springboot.taskapi.domain.Project;
+import com.nhnacademy.springboot.taskapi.dto.ProjectMemberDto;
 import com.nhnacademy.springboot.taskapi.dto.ProjectMemberRegisterRequest;
 import com.nhnacademy.springboot.taskapi.dto.ProjectModifyRequest;
 import com.nhnacademy.springboot.taskapi.dto.ProjectRegisterRequest;
@@ -56,6 +57,12 @@ public class ProjectController {
     public ResultResponse addProjectMember(@RequestBody ProjectMemberRegisterRequest request, @RequestHeader("MEMBER-SERIAL-ID") String memberId){
         projectService.addProjectMember(request, Long.parseLong(memberId));
         return new ResultResponse("created");
+    }
+
+    @GetMapping("/{projectId}/member")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<ProjectMemberDto> getProjectMembers(@PathVariable("projectId") Long projectId, @RequestHeader("MEMBER-SERIAL-ID") String memberId){
+        return projectService.getProjectMembers(projectId, Long.parseLong(memberId));
     }
 
     @DeleteMapping("/member")

@@ -2,6 +2,7 @@ package com.nhnacademy.springboot.taskapi.service;
 
 import com.nhnacademy.springboot.taskapi.domain.Project;
 import com.nhnacademy.springboot.taskapi.domain.ProjectMember;
+import com.nhnacademy.springboot.taskapi.dto.ProjectMemberDto;
 import com.nhnacademy.springboot.taskapi.dto.ProjectMemberRegisterRequest;
 import com.nhnacademy.springboot.taskapi.dto.ProjectModifyRequest;
 import com.nhnacademy.springboot.taskapi.dto.ProjectRegisterRequest;
@@ -15,6 +16,7 @@ public interface ProjectService {
     Project createProject(ProjectRegisterRequest request, Long memberId);
     void updateProject(ProjectModifyRequest request, Long adminId);
     void deleteProject(Long projectId, Long adminId);
+    List<ProjectMemberDto> getProjectMembers(Long projectId, Long memberId);
     void addProjectMember(ProjectMemberRegisterRequest request, Long adminId);
     @Transactional
     void deleteProjectMember(ProjectMemberRegisterRequest request, Long adminId);

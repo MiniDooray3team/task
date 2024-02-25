@@ -41,6 +41,10 @@ MEMBER-SERIAL-ID: 1
   "memberId": 2
 }
 
+### GET 프로젝트멤버 리스트
+GET http://localhost:8082/project/29/member
+MEMBER-SERIAL-ID: 1
+
 ### DELETE 프로젝트멤버
 DELETE http://localhost:8082/project/member
 Content-Type: application/json
