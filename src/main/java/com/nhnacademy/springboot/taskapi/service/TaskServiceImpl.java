@@ -87,6 +87,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task createTask(Long projectId, TaskRegisterRequest request, Long memberId) {
         Project project = projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        TaskStatus defaultTaskStatus = taskStatusRepository.findById(1L).orElseThrow(TaskStatusNotFoundException::new);
 
         if(!projectMemberRepository.existsByPk_ProjectIdAndPk_MemberId(projectId, memberId)){
             throw new ProjectMemberNotFoundException();
@@ -97,6 +98,7 @@ public class TaskServiceImpl implements TaskService {
         task.setName(request.getName());
         task.setAdminId(memberId);
         task.setProject(project);
+        task.setTaskStatus(defaultTaskStatus);
 
         return taskRepository.save(task);
     }
