@@ -126,7 +126,9 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.save(task);
 
-
+        if (null == request.getTags() ){
+            return;
+        }
         for (TagDto tagDto : request.getTags()) {
             if(!taskTagRepository.existsByTagIdAndTaskId(tagDto.getId(), task.getId())){
                 TaskTag taskTag = new TaskTag();
