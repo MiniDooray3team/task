@@ -3,13 +3,23 @@ GET http://localhost:8082/project/29/mileStone
 MEMBER-SERIAL-ID: 1
 
 ### POST 마일스톤
-
 POST http://localhost:8082/project/29/mileStone
 Content-Type: application/json
 MEMBER-SERIAL-ID: 1
 
 {
   "name": "일요일"
+}
+
+### PUT 마일스톤
+PUT http://localhost:8082/project/29/mileStone
+Content-Type: application/json
+MEMBER-SERIAL-ID: 1
+
+{
+  "id": 4,
+  "name": "일요일",
+  "startAt": "2024-12-14T07:00:00"
 }
 
 ### DELETE 마일스톤
